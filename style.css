@@ -1,4 +1,4 @@
 span{
-    position: relative;
+    position: absolute;
     transition: left 2s;
 }

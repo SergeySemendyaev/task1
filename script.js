@@ -1,42 +1,53 @@
 var digitsFromUserInput;
-var ascendingOrder = true;
-var div = document.getElementsByClassName("list")[0];
-var positions = [];
+var positionLeft;
+var positions;
 
-function makeNumbers(array) {
-    positions[0] = 10;
-    var index = 0;
+input.onchange = getInput;
+button.onclick = sort;
+
+function createArrayFromString(string) {
     var result = [];
-    for (var i = 0; i < array.length; i++) {
-        if (!Number.isInteger(+array[i]) || array[i] == " ")
+    for (var i = 0; i < string.length; i++) {
+        if (!Number.isInteger(+string[i]) || string[i] == " ")
             continue;
-        result.push(array[i]);
-        var span = document.createElement("span");
-        span.id = index++;
-        span.style.position = "absolute";
-        if(i > 0)
-            positions[i] = positions[i-1] + 15;
-        span.style.left = positions[i] + "px";
-        span.innerHTML = array[i];
-        div.appendChild(span);
+        result.push(string[i]);
     }
     return result;
 }
 
+function addChildrenToDiv(numbersArray){
+    var div = document.getElementsByClassName("list")[0];
+    positions = [];
+    var position = 0;
+    for(var i = 0; i < numbersArray.length; i++){
+        var span = document.createElement("span");
+        span.id = position++;
+        span.style.left = positionLeft + "px";
+        positions.push(positionLeft);
+        positionLeft += 15;
+        span.innerHTML = numbersArray[i];
+        div.appendChild(span);
+    }
+}
+
 function getInput() {
     clearDiv()
-    var userInput = document.getElementsByTagName("input")[0].value;
-    digitsFromUserInput = makeNumbers(userInput);
-    document.getElementsByTagName("input")[0].value = digitsFromUserInput.join("");
+    var input = document.getElementsByTagName("input")[0];
+    var inputContent = input.value;
+    digitsFromUserInput = createArrayFromString(inputContent);
+    addChildrenToDiv(digitsFromUserInput);
+    input.value = digitsFromUserInput.join("");
 }
 
 function clearDiv() {
+    var div = document.getElementsByClassName("list")[0];
     var DivChildren = document.getElementsByTagName("span");
     for (var i = 0; i < DivChildren.length; )
         div.removeChild(DivChildren[0]);
+    positionLeft = 10;
 }
 
-function sort() {
+function sort(ascendingOrder=true) {
     if (ascendingOrder)
         sortAscending();
     else
@@ -58,10 +69,8 @@ function sortAscending() {
             break;
         }
     }
-    if (i == 0) {
-        ascendingOrder = false;
-        sort();
-    }
+    if (i == 0) 
+        sort(false);
 }
 
 function swap(index, span1, span2) {
@@ -88,8 +97,6 @@ function sortDescending() {
             break;
         }
     }
-    if (i == digitsFromUserInput.length - 1) {
-        ascendingOrder = true;
-        sort();
-    }
+    if (i == digitsFromUserInput.length - 1) 
+        sort(true);
 }
