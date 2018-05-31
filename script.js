@@ -1,7 +1,3 @@
-var digitsFromUserInput;
-var positionLeft;
-var positions;
-
 input.onchange = getInput;
 button.onclick = sort;
 
@@ -16,15 +12,18 @@ function createArrayFromString(string) {
 }
 
 function addChildrenToDiv(numbersArray){
+    const startPosition = 10;
     var div = document.getElementsByClassName("list")[0];
-    positions = [];
-    var position = 0;
+    var positions = [];
+    var currentPosition = 10;
+    var index = 0;
     for(var i = 0; i < numbersArray.length; i++){
         var span = document.createElement("span");
-        span.id = position++;
-        span.style.left = positionLeft + "px";
-        positions.push(positionLeft);
-        positionLeft += 15;
+        span.className = "array";
+        span.id = index++;
+        span.style.left = currentPosition + "px";
+        positions.push(currentPosition);
+        currentPosition += 15;
         span.innerHTML = numbersArray[i];
         div.appendChild(span);
     }
@@ -34,7 +33,7 @@ function getInput() {
     clearDiv()
     var input = document.getElementById("input");
     var inputContent = input.value;
-    digitsFromUserInput = createArrayFromString(inputContent);
+    var digitsFromUserInput = createArrayFromString(inputContent);
     addChildrenToDiv(digitsFromUserInput);
     input.value = digitsFromUserInput.join("");
 }
@@ -44,55 +43,51 @@ function clearDiv() {
     var DivChildren = document.getElementsByTagName("span");
     for (var i = 0; i < DivChildren.length; )
         div.removeChild(DivChildren[0]);
-    positionLeft = 10;
 }
 
-function sort(ascendingOrder=true) {
+function sort() {
+    var arrayToSort = document.getElementsByClassName("array");
     var ascendingOrder = document.getElementById("orderAscending").checked == true;
     if (ascendingOrder)
-        sortAscending();
+        sortAscending(arrayToSort);
     else
-        sortDescending();
+        sortDescending(arrayToSort);
 }
 
-function sortAscending() {
-    for (var i = digitsFromUserInput.length - 1; i > 0; i--) {
-        if (digitsFromUserInput[i - 1] > digitsFromUserInput[i]) {
-            var previousSpan = document.getElementById(i - 1);
-            var currentSpan = document.getElementById(i);
+function sortAscending(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var previousSpan = document.getElementById(i - 1);
+        var currentSpan = document.getElementById(i);
+        if (previousSpan.innerHTML > currentSpan.innerHTML) {
             previousSpan.style.color = currentSpan.style.color = "red";
             setTimeout(function() {
                 currentSpan.style.color = previousSpan.style.color = "black";
             }, 2100);
-            previousSpan.style.left = positions[i] + "px";
-            currentSpan.style.left = positions[i - 1] + "px";
-            swap(i, currentSpan, previousSpan);
+            swap(currentSpan, previousSpan);
             break;
         }
     }
 }
 
-function swap(index, span1, span2) {
-    var temp = span1.id;
+function swap(span1, span2) {
+    var tempId = span1.id;
+    var tempPosition = span1.style.left;
     span1.id = span2.id;
-    span2.id = temp;
-    temp = digitsFromUserInput[index - 1];
-    digitsFromUserInput[index - 1] = digitsFromUserInput[index];
-    digitsFromUserInput[index] = temp;
+    span1.style.left = span2.style.left;
+    span2.id = tempId;
+    span2.style.left = tempPosition;
 }
 
-function sortDescending() {
-    for (var i = 0; i < digitsFromUserInput.length - 1; i++) {
-        if (digitsFromUserInput[i] < digitsFromUserInput[i + 1]) {
-            var currentSpan = document.getElementById(i);
-            var nextSpan = document.getElementById(i + 1);
+function sortDescending(array) {
+    for (var i = 0; i < array.length - 1; i++) {
+        var currentSpan = document.getElementById(i);
+        var nextSpan = document.getElementById(i + 1);
+        if (currentSpan.innerHTML < nextSpan.innerHTML) {
             currentSpan.style.color = nextSpan.style.color = "red";
             setTimeout(function() {
                 currentSpan.style.color = nextSpan.style.color = "black";
             }, 2100);
-            currentSpan.style.left = positions[i + 1] + "px";
-            nextSpan.style.left = positions[i] + "px";
-            swap(i+1, currentSpan, nextSpan);
+            swap(currentSpan, nextSpan);
             break;
         }
     }
