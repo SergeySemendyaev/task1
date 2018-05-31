@@ -1,7 +1,3 @@
-var digitsFromUserInput;
-var positionLeft;
-var positions;
-
 var getInput = require('./getInput'); 
 var sort = require('./sort'); 
 
