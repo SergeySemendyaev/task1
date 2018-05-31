@@ -4,7 +4,7 @@ var addChildrenToDiv = require( './addChildrenToDiv' );
 
 module.exports = function getInput() {
     clearDiv()
-    var input = document.getElementsByTagName("input")[0];
+    var input = document.getElementById("input");
     var inputContent = input.value;
     digitsFromUserInput = createArrayFromString(inputContent);
     addChildrenToDiv(digitsFromUserInput);

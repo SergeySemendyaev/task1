@@ -32,7 +32,7 @@ function addChildrenToDiv(numbersArray){
 
 function getInput() {
     clearDiv()
-    var input = document.getElementsByTagName("input")[0];
+    var input = document.getElementById("input");
     var inputContent = input.value;
     digitsFromUserInput = createArrayFromString(inputContent);
     addChildrenToDiv(digitsFromUserInput);
@@ -48,6 +48,7 @@ function clearDiv() {
 }
 
 function sort(ascendingOrder=true) {
+    var ascendingOrder = document.getElementById("orderAscending").checked == true;
     if (ascendingOrder)
         sortAscending();
     else
@@ -69,8 +70,6 @@ function sortAscending() {
             break;
         }
     }
-    if (i == 0) 
-        sort(false);
 }
 
 function swap(index, span1, span2) {
@@ -97,6 +96,4 @@ function sortDescending() {
             break;
         }
     }
-    if (i == digitsFromUserInput.length - 1) 
-        sort(true);
 }
