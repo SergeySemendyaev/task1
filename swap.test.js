@@ -1,6 +1,6 @@
 var swap = require('./swap');
 
-test('swaps span1 and span2 id and style.left',()=>{
+test('swaps span1 and span2 id and style.left',()=>{ 
     var span1 = document.createElement('span');
     span1.id = 1;
     span1.style.left = '10px';
