@@ -1,0 +1,13 @@
+span{
+    position: absolute;
+    transition: left 2s;
+}
+
+.radio{
+    margin-top: 20px;
+}
+
+.sorter{
+    margin-top: 20px;
+    margin-left: 10px;
+}

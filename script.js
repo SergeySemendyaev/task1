@@ -1,59 +1,94 @@
-var array;
-var numbersArray;
-var ascending = true;
+input.onchange = getInput;
+button.onclick = sort;
 
-function makeNumbers(array) {
+function createArrayFromString(string) {
     var result = [];
-    for (var i = 0; i < array.length; i++) {
-        if (!Number.isInteger(+array[i]))
+    for (var i = 0; i < string.length; i++) {
+        if (!Number.isInteger(+string[i]) || string[i] == " ")
             continue;
-        result.push(array[i]);
+        result.push(string[i]);
     }
     return result;
 }
 
-function getInput() {
-    array = document.getElementsByTagName("input")[0].value;
-    numbersArray = makeNumbers(array);
-    document.getElementsByTagName("input")[0].value = numbersArray.join("");
+function addChildrenToDiv(numbersArray){
+    const startPosition = 10;
     var div = document.getElementsByClassName("list")[0];
-    div.innerHTML = numbersArray.join("");
-}
-function sort(){
-    if(ascending)
-        sortAscending();
-    else 
-        sortDescending();
+    var positions = [];
+    var currentPosition = 10;
+    var index = 0;
+    for(var i = 0; i < numbersArray.length; i++){
+        var span = document.createElement("span");
+        span.className = "array";
+        span.id = index++;
+        span.style.left = currentPosition + "px";
+        positions.push(currentPosition);
+        currentPosition += 15;
+        span.innerHTML = numbersArray[i];
+        div.appendChild(span);
+    }
 }
 
-function sortAscending() {
-    var i = numbersArray.length - 1;
-    for (; i > 0; i--) {
-        if (numbersArray[i - 1] > numbersArray[i]) {
-            var temp = numbersArray[i - 1];
-            numbersArray[i - 1] = numbersArray[i];
-            numbersArray[i] = temp;
-            var div = document.getElementsByClassName("list")[0];
-            div.innerHTML = numbersArray.join("");
+function getInput() {
+    clearDiv()
+    var input = document.getElementById("input");
+    var inputContent = input.value;
+    var digitsFromUserInput = createArrayFromString(inputContent);
+    addChildrenToDiv(digitsFromUserInput);
+    input.value = digitsFromUserInput.join("");
+}
+
+function clearDiv() {
+    var div = document.getElementsByClassName("list")[0];
+    var DivChildren = document.getElementsByTagName("span");
+    for (var i = 0; i < DivChildren.length; )
+        div.removeChild(DivChildren[0]);
+}
+
+function sort() {
+    var arrayToSort = document.getElementsByClassName("array");
+    var ascendingOrder = document.getElementById("orderAscending").checked == true;
+    if (ascendingOrder)
+        sortAscending(arrayToSort);
+    else
+        sortDescending(arrayToSort);
+}
+
+function sortAscending(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var previousSpan = document.getElementById(i - 1);
+        var currentSpan = document.getElementById(i);
+        if (previousSpan.innerHTML > currentSpan.innerHTML) {
+            previousSpan.style.color = currentSpan.style.color = "red";
+            setTimeout(function() {
+                currentSpan.style.color = previousSpan.style.color = "black";
+            }, 2100);
+            swap(currentSpan, previousSpan);
             break;
         }
     }
-    if(i == 0) 
-        ascending = false;
 }
 
-function sortDescending(){
-    var i = 0;
-    for (; i < numbersArray.length - 1; i++) {
-        if (numbersArray[i] < numbersArray[i+1]) {
-            var temp = numbersArray[i];
-            numbersArray[i] = numbersArray[i+1];
-            numbersArray[i+1] = temp;
-            var div = document.getElementsByClassName("list")[0];
-            div.innerHTML = numbersArray.join("");
+function swap(span1, span2) {
+    var tempId = span1.id;
+    var tempPosition = span1.style.left;
+    span1.id = span2.id;
+    span1.style.left = span2.style.left;
+    span2.id = tempId;
+    span2.style.left = tempPosition;
+}
+
+function sortDescending(array) {
+    for (var i = 0; i < array.length - 1; i++) {
+        var currentSpan = document.getElementById(i);
+        var nextSpan = document.getElementById(i + 1);
+        if (currentSpan.innerHTML < nextSpan.innerHTML) {
+            currentSpan.style.color = nextSpan.style.color = "red";
+            setTimeout(function() {
+                currentSpan.style.color = nextSpan.style.color = "black";
+            }, 2100);
+            swap(currentSpan, nextSpan);
             break;
         }
     }
-    if(i == numbersArray - 1)
-        ascending = true;
 }

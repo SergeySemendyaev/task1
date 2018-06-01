@@ -1,4 +1,15 @@
-<input type="text" onchange=getInput()>
-<button onclick=sort()>next</button>
-<div class="list"></div>
-<script src="script.js"></script>
+<link rel="stylesheet" href="style.css">
+
+<div class="orderingOptions">
+    <input class="radio" type="radio" id="orderAscending" name="order" value="descending" checked>
+    <label for="orderAscending">Order Ascending</label>
+    <input class="radio" type="radio" id="orderDescending" name="order" value="descending">
+    <label for="orderDescending">Order Descending</label>
+</div>
+<div class="sorter">
+    <input type="text" id="input" onchange=getInput()>
+    <button id="button">next</button>
+    <div class="list" style="margin-top: 20px"></div>
+</div>
+
+<script src="dist/bundle.js"></script>
