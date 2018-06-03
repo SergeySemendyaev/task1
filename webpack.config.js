@@ -5,11 +5,11 @@ module.exports = {
     rules: []
   },
 
-  entry: './main.js',
+  entry: './modules and tests/main.js',
 
   output: {
-    filename: 'dist/bundle.js',
-    path: path.resolve(__dirname, './')
+    filename: './bundle.js',
+    path: path.resolve(__dirname, 'dist')
   },
 
   mode: 'development'
