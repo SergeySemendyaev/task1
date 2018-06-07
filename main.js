@@ -3,27 +3,26 @@ var getInput = require('./inputFormer');
 var Sorter = require('./sorter');
 var Visualizer = require('./visualizer');
 
+var array;
 var sorter;
 visualizer = new Visualizer();
 
 input.oninput = function() {
-    var array = getInput();
+    array = getInput();
     sorter = new Sorter(array)
     visualizer.createNodes(array);
 }
 
 next.onclick = function() {
     if (sorter) {
-        var i = sorter.next();
-        if (i != undefined)
-            visualizer.swap(i);
+        array = sorter.next();
+        visualizer.swap(array);
     }
 }
 
 prev.onclick = function() {
     if (sorter) {
-        var i = sorter.prev();
-        if (i != undefined)
-            visualizer.swap(i);
+        array = sorter.prev();
+        visualizer.swap(array);
     }
 }
