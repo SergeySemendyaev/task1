@@ -1,77 +1,3 @@
-var sorter;
-visualizer = new Visualizer();
-
-input.oninput = function() {
-    var array = getInput();
-    sorter = new Sorter(array)
-    visualizer.createNodes(array);
-}
-
-next.onclick = function() {
-    if (sorter) {
-        var i = sorter.next();
-        if (i != undefined)
-            visualizer.swap(i);
-    }
-}
-
-prev.onclick = function() {
-    if (sorter) {
-        var i = sorter.prev();
-        if (i != undefined)
-            visualizer.swap(i);
-    }
-}
-
-function getInput() {
-    var result = [];
-    var length = input.value.length;
-    var lastSymbol = input.value[length - 1];
-    if (!Number.isInteger(+lastSymbol) || lastSymbol == " ")
-        input.value = input.value.substring(0, length - 1);
-    for (var i = 0; i < input.value.length; i++)
-        result.push(input.value[i]);
-    return result;
-}
-
-function Sorter(array) {
-    this.array = array;
-    var stack = [];
-    stack.i = [];
-    stack.j = [];
-    var i = 0;
-    var j = 1;
-    var length = array.length;
-    this.next = function() {
-        if (length > 1) {
-            while (array[j] >= array[j - 1] && i < length) {
-                j++;
-                if (j == length && i < length - 1) {
-                    j = 1;
-                    i++;
-                }
-            }
-            if (array[j] < array[j - 1]) {
-                stack.push(array.slice());
-                stack.i.push(i);
-                stack.j.push(j);
-                var temp = array[j];
-                array[j] = array[j - 1];
-                array[j - 1] = temp;
-                return j;
-            }
-        }
-    }
-    this.prev = function() {
-        if (stack.length != 0) {
-            this.array = array = stack.pop();
-            i = stack.i.pop();
-            j = stack.j.pop();
-            return j;
-        }
-    }
-}
-
 function Visualizer() {
     var div = document.getElementsByClassName('list')[0];
     var positionsList = [];
@@ -118,3 +44,5 @@ function Visualizer() {
         span2.id = tempId;
     }
 }
+
+module.exports = Visualizer;

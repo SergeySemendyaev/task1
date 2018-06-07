@@ -1,5 +1,5 @@
 {
-  "taks1": {
+  "task1-1": {
     "configuration": {
       "config": {
         "webpackOptions": {
@@ -9,7 +9,7 @@
           "plugins": [
             "new UglifyJSPlugin()"
           ],
-          "entry": "./modules and tests/main.js",
+          "entry": "main.js",
           "output": {
             "filename": "'[name].[chunkhash].js'",
             "path": "path.resolve(__dirname, 'dist')"

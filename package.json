@@ -1,28 +1,27 @@
 {
-  "name": "taks1",
+  "name": "task1-1",
   "version": "1.0.0",
-  "description": "sorts digits from users input",
-  "main": "index.js",
+  "description": "sorter",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm test"
   },
-  "author": "Sergey Semendyaev",
+  "repository": {
+    "type": "git",
+    "url": "task1-1"
+  },
+  "keywords": [
+    "sorter"
+  ],
+  "author": "SergeySemendyaev",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.10.2",
     "webpack-cli": "^2.1.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SergeySemendyaev/taks1.git"
-  },
-  "keywords": [
-    "sorter"
-  ],
-  "bugs": {
-    "url": "https://github.com/SergeySemendyaev/taks1/issues"
-  },
-  "homepage": "https://github.com/SergeySemendyaev/taks1#readme"
+  "dependencies": {
+    "systemjs": "^0.21.4",
+    "uglify-js": "^3.4.0"
+  }
 }

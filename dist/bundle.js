@@ -81,107 +81,52 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./modules and tests/main.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./main.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./modules and tests/addChildrenToDiv.js":
-/*!***********************************************!*\
-  !*** ./modules and tests/addChildrenToDiv.js ***!
-  \***********************************************/
+/***/ "./inputFormer.js":
+/*!************************!*\
+  !*** ./inputFormer.js ***!
+  \************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = function addChildrenToDiv(numbersArray){\r\n    const startPosition = 10;\r\n    var div = document.getElementsByClassName(\"list\")[0];\r\n    var positions = [];\r\n    var currentPosition = 10;\r\n    var index = 0;\r\n    for(var i = 0; i < numbersArray.length; i++){\r\n        var span = document.createElement(\"span\");\r\n        span.className = \"array\";\r\n        span.id = index++;\r\n        span.style.left = currentPosition + \"px\";\r\n        positions.push(currentPosition);\r\n        currentPosition += 15;\r\n        span.innerHTML = numbersArray[i];\r\n        div.appendChild(span);\r\n    }\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/addChildrenToDiv.js?");
+eval("function getInput() {\r\n    var result = [];\r\n    var length = input.value.length;\r\n    var lastSymbol = input.value[length - 1];\r\n    if (!Number.isInteger(+lastSymbol) || lastSymbol == \" \")\r\n        input.value = input.value.substring(0, length - 1);\r\n    for (var i = 0; i < input.value.length; i++)\r\n        result.push(input.value[i]);\r\n    return result;\r\n}\r\n\r\nmodule.exports = getInput;\n\n//# sourceURL=webpack:///./inputFormer.js?");
 
 /***/ }),
 
-/***/ "./modules and tests/clearDiv.js":
-/*!***************************************!*\
-  !*** ./modules and tests/clearDiv.js ***!
-  \***************************************/
+/***/ "./main.js":
+/*!*****************!*\
+  !*** ./main.js ***!
+  \*****************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("\r\nvar getInput = __webpack_require__(/*! ./inputFormer */ \"./inputFormer.js\");\r\nvar Sorter = __webpack_require__(/*! ./sorter */ \"./sorter.js\");\r\nvar Visualizer = __webpack_require__(/*! ./visualizer */ \"./visualizer.js\");\r\n\r\nvar sorter;\r\nvisualizer = new Visualizer();\r\n\r\ninput.oninput = function() {\r\n    var array = getInput();\r\n    sorter = new Sorter(array)\r\n    visualizer.createNodes(array);\r\n}\r\n\r\nnext.onclick = function() {\r\n    if (sorter) {\r\n        var i = sorter.next();\r\n        if (i != undefined)\r\n            visualizer.swap(i);\r\n    }\r\n}\r\n\r\nprev.onclick = function() {\r\n    if (sorter) {\r\n        var i = sorter.prev();\r\n        if (i != undefined)\r\n            visualizer.swap(i);\r\n    }\r\n}\n\n//# sourceURL=webpack:///./main.js?");
+
+/***/ }),
+
+/***/ "./sorter.js":
+/*!*******************!*\
+  !*** ./sorter.js ***!
+  \*******************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = function clearDiv() {\r\n    var div = document.getElementsByClassName(\"list\")[0];\r\n    var DivChildren = document.getElementsByTagName(\"span\");\r\n    for (var i = 0; i < DivChildren.length; )\r\n        div.removeChild(DivChildren[0]);\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/clearDiv.js?");
+eval("function Sorter(array) {\r\n    this.array = array;\r\n    var stack = [];\r\n    stack.i = [];\r\n    stack.j = [];\r\n    var i = 0;\r\n    var j = 1;\r\n    this.next = function() {\r\n        var length = array.length;\r\n        if (length - i >= 0) {\r\n            while (array[j] >= array[j - 1] && i < length) {\r\n                j++;\r\n                if (j == length && i < length) {\r\n                    j = 1;\r\n                    i++;\r\n                }\r\n            }\r\n            if (array[j] < array[j - 1]) {\r\n                stack.push(array.slice());\r\n                stack.i.push(i);\r\n                stack.j.push(j);\r\n                var temp = array[j];\r\n                array[j] = array[j - 1];\r\n                array[j - 1] = temp;\r\n                return j;\r\n            }\r\n        }\r\n    }\r\n    this.prev = function() {\r\n        if (stack.length != 0) {\r\n            this.array = array = stack.pop();\r\n            i = stack.i.pop();\r\n            j = stack.j.pop();\r\n            return j;\r\n        }\r\n    }\r\n}\r\n\r\nmodule.exports = Sorter;\n\n//# sourceURL=webpack:///./sorter.js?");
 
 /***/ }),
 
-/***/ "./modules and tests/createArrayFromString.js":
-/*!****************************************************!*\
-  !*** ./modules and tests/createArrayFromString.js ***!
-  \****************************************************/
+/***/ "./visualizer.js":
+/*!***********************!*\
+  !*** ./visualizer.js ***!
+  \***********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = function createArrayFromString(string) {\r\n    var result = [];\r\n    if(string.length == 0)\r\n        return result;\r\n    for (var i = 0; i < string.length; i++) {\r\n        if (!Number.isInteger(+string[i]) || string[i] == \" \")\r\n            continue;\r\n        result.push(string[i]);\r\n    }\r\n    return result;\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/createArrayFromString.js?");
-
-/***/ }),
-
-/***/ "./modules and tests/getInput.js":
-/*!***************************************!*\
-  !*** ./modules and tests/getInput.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var clearDiv = __webpack_require__( /*! ./clearDiv */ \"./modules and tests/clearDiv.js\" );\r\nvar createArrayFromString = __webpack_require__( /*! ./createArrayFromString */ \"./modules and tests/createArrayFromString.js\" );\r\nvar addChildrenToDiv = __webpack_require__( /*! ./addChildrenToDiv */ \"./modules and tests/addChildrenToDiv.js\" );\r\n\r\nmodule.exports = function getInput() {\r\n    clearDiv()\r\n    var input = document.getElementById(\"input\");\r\n    var inputContent = input.value;\r\n    digitsFromUserInput = createArrayFromString(inputContent);\r\n    addChildrenToDiv(digitsFromUserInput);\r\n    input.value = digitsFromUserInput.join(\"\");\r\n};\n\n//# sourceURL=webpack:///./modules_and_tests/getInput.js?");
-
-/***/ }),
-
-/***/ "./modules and tests/main.js":
-/*!***********************************!*\
-  !*** ./modules and tests/main.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var getInput = __webpack_require__(/*! ./getInput */ \"./modules and tests/getInput.js\"); \r\nvar sort = __webpack_require__(/*! ./sort */ \"./modules and tests/sort.js\"); \r\n\r\ninput.onchange = getInput;\r\nbutton.onclick = sort;\n\n//# sourceURL=webpack:///./modules_and_tests/main.js?");
-
-/***/ }),
-
-/***/ "./modules and tests/sort.js":
-/*!***********************************!*\
-  !*** ./modules and tests/sort.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var sortAscending = __webpack_require__(/*! ./sortAscending */ \"./modules and tests/sortAscending.js\");\r\nvar sortDescending = __webpack_require__(/*! ./sortDescending */ \"./modules and tests/sortDescending.js\");\r\n\r\nmodule.exports = function sort() {\r\n    var arrayToSort = document.getElementsByClassName(\"array\");\r\n    var ascendingOrder = document.getElementById(\"orderAscending\").checked == true;\r\n    if (ascendingOrder)\r\n        sortAscending(arrayToSort);\r\n    else\r\n        sortDescending(arrayToSort);\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/sort.js?");
-
-/***/ }),
-
-/***/ "./modules and tests/sortAscending.js":
-/*!********************************************!*\
-  !*** ./modules and tests/sortAscending.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var swap = __webpack_require__(/*! ./swap */ \"./modules and tests/swap.js\");\r\n\r\nmodule.exports = function sortAscending(array) {\r\n    for (var i = array.length - 1; i > 0; i--) {\r\n        var previousSpan = document.getElementById(i - 1);\r\n        var currentSpan = document.getElementById(i);\r\n        if (previousSpan.innerHTML > currentSpan.innerHTML) {\r\n            previousSpan.style.color = currentSpan.style.color = \"red\";\r\n            setTimeout(function() {\r\n                currentSpan.style.color = previousSpan.style.color = \"black\";\r\n            }, 2100);\r\n            swap(currentSpan, previousSpan);\r\n            break;\r\n        }\r\n    }\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/sortAscending.js?");
-
-/***/ }),
-
-/***/ "./modules and tests/sortDescending.js":
-/*!*********************************************!*\
-  !*** ./modules and tests/sortDescending.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var swap = __webpack_require__(/*! ./swap */ \"./modules and tests/swap.js\");\r\n\r\nmodule.exports = function sortDescending(array) {\r\n    for (var i = 0; i < array.length - 1; i++) {\r\n        var currentSpan = document.getElementById(i);\r\n        var nextSpan = document.getElementById(i + 1);\r\n        if (currentSpan.innerHTML < nextSpan.innerHTML) {\r\n            currentSpan.style.color = nextSpan.style.color = \"red\";\r\n            setTimeout(function() {\r\n                currentSpan.style.color = nextSpan.style.color = \"black\";\r\n            }, 2100);\r\n            swap(currentSpan, nextSpan);\r\n            break;\r\n        }\r\n    }\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/sortDescending.js?");
-
-/***/ }),
-
-/***/ "./modules and tests/swap.js":
-/*!***********************************!*\
-  !*** ./modules and tests/swap.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = function swap(span1, span2) {\r\n    var tempId = span1.id;\r\n    var tempPosition = span1.style.left;\r\n    span1.id = span2.id;\r\n    span1.style.left = span2.style.left;\r\n    span2.id = tempId;\r\n    span2.style.left = tempPosition;\r\n}\n\n//# sourceURL=webpack:///./modules_and_tests/swap.js?");
+eval("function Visualizer() {\r\n    var div = document.getElementsByClassName('list')[0];\r\n    var positionsList = [];\r\n    var index = 0;\r\n    this.createNodes = function(array) {\r\n        var children = document.getElementsByClassName('array');\r\n        if (array.length == 0 || array.length == 1 && array.length + 1 < children.length) {\r\n            while (div.hasChildNodes()) {\r\n                div.removeChild(children[0]);\r\n            }\r\n            index = 0;\r\n            positionsList = [];\r\n        } else if (array.length > children.length) {\r\n            positionsList.push(index * 17 + 10);\r\n            var span = document.createElement('span');\r\n            span.className = 'array';\r\n            span.style.backgroundColor = 'rgb(255, 0, 0, 0.9)';\r\n            span.id = index;\r\n            span.style.left = positionsList[index] + 'px';\r\n            span.style.height = (array[index] + 1) * 2 + 23 + 'px';\r\n            span.innerHTML = array[index];\r\n            div.appendChild(span);\r\n            setTimeout(function() {\r\n                span.style.backgroundColor = 'rgb(0, 0, 255, 0.2)'\r\n            }, 10);\r\n            index++;\r\n        } else if (array.length < children.length) {\r\n            div.removeChild(children[--index]);\r\n            positionsList.pop();\r\n        }\r\n    }\r\n    this.swap = function(i) {\r\n        var spans = document.getElementsByClassName('array');\r\n        var span1 = document.getElementById(i);\r\n        var span2 = document.getElementById(i - 1);\r\n        span1.style.backgroundColor = span2.style.backgroundColor = 'rgb(255, 0, 0, 0.9)';\r\n        setTimeout(function() {\r\n            span1.style.backgroundColor = span2.style.backgroundColor = 'rgb(0, 0, 255, 0.2)'\r\n        }, 700);\r\n        span1.style.left = positionsList[i - 1];\r\n        span2.style.left = positionsList[i];\r\n        var tempId = span1.id;\r\n        span1.id = span2.id;\r\n        span2.id = tempId;\r\n    }\r\n}\r\n\r\nmodule.exports = Visualizer;\n\n//# sourceURL=webpack:///./visualizer.js?");
 
 /***/ })
 

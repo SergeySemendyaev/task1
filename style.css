@@ -1,13 +1,8 @@
-span{
+.array{
     position: absolute;
-    transition: left 2s;
-}
-
-.radio{
-    margin-top: 20px;
-}
-
-.sorter{
-    margin-top: 20px;
-    margin-left: 10px;
+    border: 1px solid black;
+    width: 13px;
+    text-align: center;
+    background-color: rgb(0, 0, 255, 0.2);
+    transition: left 1.5s,  background-color 1s ease-out;
 }

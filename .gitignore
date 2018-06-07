@@ -1,5 +1,4 @@
 
-*.
-node_modules/
-.dist/bundle.js
-.dist/bundle.js
+.yo-rc.json
+
+/node_modules

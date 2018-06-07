@@ -1,16 +1,16 @@
 var path = require('path');
 
 module.exports = {
-  module: {
-    rules: []
-  },
+	module: {
+		rules: []
+	},
 
-  entry: './modules and tests/main.js',
+	entry: './main.js',
 
-  output: {
-    filename: './bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  },
+	output: {
+		filename: 'bundle.js',
+		path: path.resolve(__dirname, 'dist')
+	},
 
-  mode: 'development'
-}
+	mode: 'development'
+};
